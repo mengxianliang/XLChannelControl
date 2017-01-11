@@ -4,13 +4,16 @@ iOS 仿照腾讯新闻客户端实现的频道管理功能，参考了今日头�
 <br>
 主要逻辑就是正常点击频道按钮进行增加/删除的操作；在"我的频道"中按住拖拽可以对我的频道进行排序操作；
 <br>
-显示效果
---------------
+# 显示效果
+
 | 正常显示 | 点击删除/增加 | 拖拽排序 |
 | ---- | ---- | ---- |
 |![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/1.gif)| ![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/2.gif)| ![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/3.gif)|
 <br>
 # 使用方法
+
+```objc
 [[XLChannelControl shareControl] showInViewController:self completion:^(NSArray *channels) {
         NSLog(@"频道管理结束：%@",channels);
     }];
+```
