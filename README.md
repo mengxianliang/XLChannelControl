@@ -5,5 +5,7 @@ iOS 仿照腾讯新闻客户端实现的频道管理功能
 --------------
 | 正常显示 | 点击删除/增加 | 拖拽排序 |
 | ---- | ---- | ---- |
-|![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/1-1.gif)| ![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/1-2.gif)| ![image](https://github.com/mengxianliang/XLSlideSwitch/blob/master/GIF/1-3.gif)|
+|![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/1.gif)
+| ![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/1.gif)
+| ![image](https://github.com/mengxianliang/XLChannelControl/blob/master/GIF/1.gif)
 <br>
