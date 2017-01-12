@@ -17,3 +17,5 @@ iOS 仿照腾讯新闻客户端实现的频道管理功能，参考了今日头�
         NSLog(@"频道管理结束：%@",channels);
     }];
 ```
+<br>
+## 实现原理请参考[我的博文](http://blog.csdn.net/u013282507/article/details/54374952)
