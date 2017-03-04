@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  XLChannelHeaderView.h
 //  XLChannelControlDemo
 //
 //  Created by MengXianLiang on 2017/3/3.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface XLChannelHeader : UICollectionReusableView
 
-@property (strong, nonatomic) UIWindow *window;
+@property (copy,nonatomic) NSString *title;
 
+@property (copy,nonatomic) NSString *subTitle;
 
 @end
-

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "18C00A1C1E26757A0035A042"
+               BlueprintIdentifier = "5E7B16AC1E699F0C0027EBDA"
                BuildableName = "XLChannelControlDemo.app"
                BlueprintName = "XLChannelControlDemo"
                ReferencedContainer = "container:XLChannelControlDemo.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18C00A1C1E26757A0035A042"
+            BlueprintIdentifier = "5E7B16AC1E699F0C0027EBDA"
             BuildableName = "XLChannelControlDemo.app"
             BlueprintName = "XLChannelControlDemo"
             ReferencedContainer = "container:XLChannelControlDemo.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18C00A1C1E26757A0035A042"
+            BlueprintIdentifier = "5E7B16AC1E699F0C0027EBDA"
             BuildableName = "XLChannelControlDemo.app"
             BlueprintName = "XLChannelControlDemo"
             ReferencedContainer = "container:XLChannelControlDemo.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18C00A1C1E26757A0035A042"
+            BlueprintIdentifier = "5E7B16AC1E699F0C0027EBDA"
             BuildableName = "XLChannelControlDemo.app"
             BlueprintName = "XLChannelControlDemo"
             ReferencedContainer = "container:XLChannelControlDemo.xcodeproj">

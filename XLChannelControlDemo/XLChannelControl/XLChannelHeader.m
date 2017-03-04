@@ -1,21 +1,22 @@
 //
-//  XLChannelTitleView.m
+//  XLChannelHeaderView.m
 //  XLChannelControlDemo
 //
-//  Created by Apple on 2017/1/11.
-//  Copyright © 2017年 Apple. All rights reserved.
+//  Created by MengXianLiang on 2017/3/3.
+//  Copyright © 2017年 MengXianLiang. All rights reserved.
 //
 
-#import "XLChannelTitleView.h"
+#import "XLChannelHeader.h"
 
-@interface XLChannelTitleView ()
+@interface XLChannelHeader ()
 {
     UILabel *_titleLabel;
+    
     UILabel *_subtitleLabel;
 }
 @end
 
-@implementation XLChannelTitleView
+@implementation XLChannelHeader
 
 -(instancetype)initWithFrame:(CGRect)frame
 {
@@ -27,13 +28,15 @@
 
 -(void)buildUI
 {
-    CGFloat labelWidth = self.bounds.size.width/2.0f;
+    CGFloat marginX = 15.0f;
     
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelWidth, self.bounds.size.height)];
+    CGFloat labelWidth = (self.bounds.size.width - 2*marginX)/2.0f;
+    
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(marginX, 0, labelWidth, self.bounds.size.height)];
     _titleLabel.textColor = [UIColor blackColor];
     [self addSubview:_titleLabel];
     
-    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth, 0, labelWidth, self.bounds.size.height)];
+    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + marginX, 0, labelWidth, self.bounds.size.height)];
     _subtitleLabel.textColor = [UIColor lightGrayColor];
     _subtitleLabel.textAlignment = NSTextAlignmentRight;
     _subtitleLabel.font = [UIFont systemFontOfSize:15.0f];

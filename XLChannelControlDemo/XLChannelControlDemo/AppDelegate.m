@@ -2,13 +2,12 @@
 //  AppDelegate.m
 //  XLChannelControlDemo
 //
-//  Created by Apple on 2017/1/11.
-//  Copyright © 2017年 Apple. All rights reserved.
+//  Created by MengXianLiang on 2017/3/3.
+//  Copyright © 2017年 MengXianLiang. All rights reserved.
 //
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "XLBaseNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -21,8 +20,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
-    
-    self.window.rootViewController = [[XLBaseNavigationController alloc] initWithRootViewController:[ViewController new]];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController new]];
     
     return YES;
 }
