@@ -13,8 +13,8 @@ iOS 仿照腾讯新闻客户端实现的频道管理功能，参考了今日头�
 # 使用方法
 
 ```objc
-[[XLChannelControl shareControl] showInViewController:self completion:^(NSArray *channels) {
-        NSLog(@"频道管理结束：%@",channels);
+    [[XLChannelControl shareControl] showChannelViewWithInUseTitles:titleArr1 unUseTitles:titleArr2 finish:^(NSArray *inUseTitles, NSArray *unUseTitles) {
+        //处理后续问题
     }];
 ```
 <br>
