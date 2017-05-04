@@ -11,6 +11,8 @@
 @interface XLChannelItem ()
 {
     UILabel *_textLabel;
+    
+    CAShapeLayer *_borderLayer;
 }
 @end
 
@@ -29,18 +31,30 @@
 {
     self.userInteractionEnabled = true;
     self.layer.cornerRadius = 5.0f;
-    self.layer.borderWidth = 1.0f;
-    self.backgroundColor = [UIColor whiteColor];
-    self.layer.borderColor = [self borderColor].CGColor;
+    self.backgroundColor = [self backgroundColor];
     
     _textLabel = [UILabel new];
     _textLabel.frame = self.bounds;
     _textLabel.textAlignment = NSTextAlignmentCenter;
     _textLabel.textColor = [self textColor];
-    _textLabel.font = [UIFont systemFontOfSize:15];
     _textLabel.adjustsFontSizeToFitWidth = true;
     _textLabel.userInteractionEnabled = true;
     [self addSubview:_textLabel];
+    
+    [self addBorderLayer];
+}
+
+-(void)addBorderLayer{
+    _borderLayer = [CAShapeLayer layer];
+    _borderLayer.bounds = self.bounds;
+    _borderLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    _borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:_borderLayer.bounds cornerRadius:self.layer.cornerRadius].CGPath;
+    _borderLayer.lineWidth = 1;
+    _borderLayer.lineDashPattern = @[@5, @3];
+    _borderLayer.fillColor = [UIColor clearColor].CGColor;
+    _borderLayer.strokeColor = [self backgroundColor].CGColor;
+    [self.layer addSublayer:_borderLayer];
+    _borderLayer.hidden = true;
 }
 
 -(void)layoutSubviews
@@ -52,24 +66,17 @@
 #pragma mark -
 #pragma mark 配置方法
 
--(UIColor*)borderColor{
-    return [UIColor colorWithRed:227.0/255.0f green:227.0/255.0f blue:227.0/255.0f alpha:1];
-}
-
-
--(UIColor*)lightBorderColor{
-    return [UIColor colorWithRed:241.0/255.0f green:241.0/255.0f blue:241.0/255.0f alpha:1];
+-(UIColor*)backgroundColor{
+    return [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1];
 }
 
 -(UIColor*)textColor{
-    return [UIColor colorWithRed:40.0/255.0f green:40.0/255.0f blue:40.0/255.0f alpha:1];
+    return [UIColor colorWithRed:40/255.0f green:40/255.0f blue:40/255.0f alpha:1];
 }
 
--(UIColor*)lightTextColro{
-    return [UIColor colorWithWhite:0.5 alpha:1];
+-(UIColor*)lightTextColor{
+    return [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1];
 }
-
-
 
 #pragma mark -
 #pragma mark Setter
@@ -84,10 +91,19 @@
 {
     _isMoving = isMoving;
     if (_isMoving) {
-        self.layer.borderColor = [self lightBorderColor].CGColor;
-        _textLabel.textColor = [self lightTextColro];
+        self.backgroundColor = [UIColor clearColor];
+        _borderLayer.hidden = false;
     }else{
-        self.layer.borderColor = [self borderColor].CGColor;
+        self.backgroundColor = [self backgroundColor];
+        _borderLayer.hidden = true;
+    }
+}
+
+-(void)setIsFixed:(BOOL)isFixed{
+    _isFixed = isFixed;
+    if (isFixed) {
+        _textLabel.textColor = [self lightTextColor];
+    }else{
         _textLabel.textColor = [self textColor];
     }
 }

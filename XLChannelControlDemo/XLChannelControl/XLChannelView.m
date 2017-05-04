@@ -87,8 +87,8 @@ static CGFloat CellMarginY = 10.0f;
     }
 }
 
+//拖拽开始 找到被拖拽的item
 -(void)dragBegin:(CGPoint)point{
-    
     _dragingIndexPath = [self getDragingIndexPathWithPoint:point];
     if (!_dragingIndexPath) {return;}
     [_collectionView bringSubviewToFront:_dragingItem];
@@ -101,6 +101,7 @@ static CGFloat CellMarginY = 10.0f;
     [_dragingItem setTransform:CGAffineTransformMakeScale(1.1, 1.1)];
 }
 
+//正在被拖拽、、、
 -(void)dragChanged:(CGPoint)point{
     if (!_dragingIndexPath) {return;}
     _dragingItem.center = point;
@@ -115,6 +116,7 @@ static CGFloat CellMarginY = 10.0f;
     }
 }
 
+//拖拽结束
 -(void)dragEnd{
     if (!_dragingIndexPath) {return;}
     CGRect endFrame = [_collectionView cellForItemAtIndexPath:_dragingIndexPath].frame;
@@ -130,6 +132,7 @@ static CGFloat CellMarginY = 10.0f;
 
 #pragma mark -
 #pragma mark 辅助方法
+
 //获取被拖动IndexPath的方法
 -(NSIndexPath*)getDragingIndexPathWithPoint:(CGPoint)point{
     NSIndexPath* dragIndexPath = nil;
@@ -138,8 +141,11 @@ static CGFloat CellMarginY = 10.0f;
     for (NSIndexPath *indexPath in _collectionView.indexPathsForVisibleItems) {
         //下半部分不需要排序
         if (indexPath.section > 0) {continue;}
+        //在上半部分中找出相对应的Item
         if (CGRectContainsPoint([_collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
-            dragIndexPath = indexPath;
+            if (indexPath.row != 0) {
+                dragIndexPath = indexPath;
+            }
             break;
         }
     }
@@ -154,6 +160,7 @@ static CGFloat CellMarginY = 10.0f;
         if ([indexPath isEqual:_dragingIndexPath]) {continue;}
         //第二组不需要排序
         if (indexPath.section > 0) {continue;}
+        //在第一组中找出将被替换位置的Item
         if (CGRectContainsPoint([_collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
             targetIndexPath = indexPath;
         }
@@ -192,12 +199,17 @@ static CGFloat CellMarginY = 10.0f;
     static NSString* cellId = @"XLChannelItem";
     XLChannelItem* item = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     item.title = indexPath.section == 0 ? _inUseTitles[indexPath.row] : _unUseTitles[indexPath.row];
+    item.isFixed = indexPath.section == 0 && indexPath.row == 0;
     return  item;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
+        //只剩一个的时候不可删除
+        if ([_collectionView numberOfItemsInSection:0] == 1) {return;}
+        //第一个不可删除
+        if (indexPath.row  == 0) {return;}
         id obj = [_inUseTitles objectAtIndex:indexPath.row];
         [_inUseTitles removeObject:obj];
         [_unUseTitles insertObject:obj atIndex:0];
