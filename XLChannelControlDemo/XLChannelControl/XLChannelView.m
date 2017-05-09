@@ -162,7 +162,9 @@ static CGFloat CellMarginY = 10.0f;
         if (indexPath.section > 0) {continue;}
         //在第一组中找出将被替换位置的Item
         if (CGRectContainsPoint([_collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
-            targetIndexPath = indexPath;
+            if (indexPath.row != 0) {
+                targetIndexPath = indexPath;
+            }
         }
     }
     return targetIndexPath;
