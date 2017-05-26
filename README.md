@@ -27,4 +27,7 @@
 ```
 
 ### 实现原理请参考[我的博文](http://blog.csdn.net/u013282507/article/details/54374952)
+
 ### 我之前用ScrollView实现的版本[戳这里](http://code.cocoachina.com/view/133979)
+
+### 个人开发过的UI工具集合 [XLUIKit](https://github.com/mengxianliang/XLUIKit)
