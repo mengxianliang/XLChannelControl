@@ -255,7 +255,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "12fd5233-91ad-4bad-85eb-088f522366dd";
+				PROVISIONING_PROFILE = "63d0bee2-4f74-4b71-a719-620d70b5a076";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -297,7 +297,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "12fd5233-91ad-4bad-85eb-088f522366dd";
+				PROVISIONING_PROFILE = "63d0bee2-4f74-4b71-a719-620d70b5a076";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -313,7 +313,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mxl.channelControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12fd5233-91ad-4bad-85eb-088f522366dd";
+				PROVISIONING_PROFILE = "63d0bee2-4f74-4b71-a719-620d70b5a076";
 			};
 			name = Debug;
 		};
@@ -327,7 +327,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mxl.channelControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12fd5233-91ad-4bad-85eb-088f522366dd";
+				PROVISIONING_PROFILE = "63d0bee2-4f74-4b71-a719-620d70b5a076";
 			};
 			name = Release;
 		};
