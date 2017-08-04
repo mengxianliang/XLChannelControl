@@ -26,13 +26,16 @@
 }];
 ```
 ### 参数说明：
+`
 传入参数：
 <br>
 **titleArr1** ：已选频道集合 **titleArr2**：未选频道集合
 <br>
+<br>
 返回数据：
 <br>
 **inUseTitles**：排序、增删处理后的已选频道 **unUseTitles**：增删后的未选频道
+`
 
 ### 实现原理请参考[我的博文](http://blog.csdn.net/u013282507/article/details/54374952)
 
