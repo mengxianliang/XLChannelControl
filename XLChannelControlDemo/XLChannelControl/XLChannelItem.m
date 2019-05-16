@@ -9,11 +9,11 @@
 #import "XLChannelItem.h"
 
 @interface XLChannelItem ()
-{
-    UILabel *_textLabel;
-    
-    CAShapeLayer *_borderLayer;
-}
+
+@property (nonatomic, strong) UILabel *textLabel;
+
+@property (nonatomic, strong) CAShapeLayer *borderLayer;
+
 @end
 
 @implementation XLChannelItem
@@ -33,34 +33,34 @@
     self.layer.cornerRadius = 5.0f;
     self.backgroundColor = [self backgroundColor];
     
-    _textLabel = [UILabel new];
-    _textLabel.frame = self.bounds;
-    _textLabel.textAlignment = NSTextAlignmentCenter;
-    _textLabel.textColor = [self textColor];
-    _textLabel.adjustsFontSizeToFitWidth = true;
-    _textLabel.userInteractionEnabled = true;
-    [self addSubview:_textLabel];
+    self.textLabel = [UILabel new];
+    self.textLabel.frame = self.bounds;
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
+    self.textLabel.textColor = [self textColor];
+    self.textLabel.adjustsFontSizeToFitWidth = true;
+    self.textLabel.userInteractionEnabled = true;
+    [self addSubview:self.textLabel];
     
     [self addBorderLayer];
 }
 
 -(void)addBorderLayer{
-    _borderLayer = [CAShapeLayer layer];
-    _borderLayer.bounds = self.bounds;
-    _borderLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    _borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:_borderLayer.bounds cornerRadius:self.layer.cornerRadius].CGPath;
-    _borderLayer.lineWidth = 1;
-    _borderLayer.lineDashPattern = @[@5, @3];
-    _borderLayer.fillColor = [UIColor clearColor].CGColor;
-    _borderLayer.strokeColor = [self backgroundColor].CGColor;
-    [self.layer addSublayer:_borderLayer];
-    _borderLayer.hidden = true;
+    self.borderLayer = [CAShapeLayer layer];
+    self.borderLayer.bounds = self.bounds;
+    self.borderLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.borderLayer.bounds cornerRadius:self.layer.cornerRadius].CGPath;
+    self.borderLayer.lineWidth = 1;
+    self.borderLayer.lineDashPattern = @[@5, @3];
+    self.borderLayer.fillColor = [UIColor clearColor].CGColor;
+    self.borderLayer.strokeColor = [self backgroundColor].CGColor;
+    [self.layer addSublayer:self.borderLayer];
+    self.borderLayer.hidden = true;
 }
 
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    _textLabel.frame = self.bounds;
+    self.textLabel.frame = self.bounds;
 }
 
 #pragma mark -
@@ -84,7 +84,7 @@
 -(void)setTitle:(NSString *)title
 {
     _title = title;
-    _textLabel.text = title;
+    self.textLabel.text = title;
 }
 
 -(void)setIsMoving:(BOOL)isMoving
@@ -92,19 +92,19 @@
     _isMoving = isMoving;
     if (_isMoving) {
         self.backgroundColor = [UIColor clearColor];
-        _borderLayer.hidden = false;
+        self.borderLayer.hidden = false;
     }else{
         self.backgroundColor = [self backgroundColor];
-        _borderLayer.hidden = true;
+        self.borderLayer.hidden = true;
     }
 }
 
 -(void)setIsFixed:(BOOL)isFixed{
     _isFixed = isFixed;
     if (isFixed) {
-        _textLabel.textColor = [self lightTextColor];
+        self.textLabel.textColor = [self lightTextColor];
     }else{
-        _textLabel.textColor = [self textColor];
+        self.textLabel.textColor = [self textColor];
     }
 }
 

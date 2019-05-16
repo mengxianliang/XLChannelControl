@@ -10,13 +10,13 @@
 #import "XLChannelView.h"
 
 @interface XLChannelControl ()
-{
-    UINavigationController *_nav;
-    
-    XLChannelView *_channelView;
-    
-    ChannelBlock _block;
-}
+
+@property (nonatomic, strong) UINavigationController *nav;
+
+@property (nonatomic, strong) XLChannelView *channelView;
+
+@property (nonatomic, strong) XLChannelBlock block;
+
 @end
 
 @implementation XLChannelControl
@@ -30,51 +30,49 @@
     return control;
 }
 
--(instancetype)init
-{
+- (instancetype)init {
     if (self = [super init]) {
         [self buildChannelView];
     }
     return self;
 }
 
--(void)buildChannelView{
+- (void)buildChannelView {
     
-    _channelView = [[XLChannelView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.channelView = [[XLChannelView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    _nav = [[UINavigationController alloc] initWithRootViewController:[UIViewController new]];
-    _nav.navigationBar.tintColor = [UIColor blackColor];
-    _nav.topViewController.title = @"频道管理";
-    _nav.topViewController.view = _channelView;
-    _nav.topViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(backMethod)];
+    self.nav = [[UINavigationController alloc] initWithRootViewController:[UIViewController new]];
+    self.nav.navigationBar.tintColor = [UIColor blackColor];
+    self.nav.topViewController.title = @"频道管理";
+    self.nav.topViewController.view = self.channelView;
+    self.nav.topViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(backMethod)];
 }
 
--(void)backMethod
-{
+- (void)backMethod {
     [UIView animateWithDuration:0.3 animations:^{
-        CGRect frame = _nav.view.frame;
-        frame.origin.y = - _nav.view.bounds.size.height;
-        _nav.view.frame = frame;
+        CGRect frame = self.nav.view.frame;
+        frame.origin.y = - self.nav.view.bounds.size.height;
+        self.nav.view.frame = frame;
     }completion:^(BOOL finished) {
-        [_nav.view removeFromSuperview];
+        [self.nav.view removeFromSuperview];
     }];
-    _block(_channelView.inUseTitles,_channelView.unUseTitles);
+    self.block(self.channelView.inUseTitles,self.channelView.unUseTitles);
 }
 
--(void)showChannelViewWithInUseTitles:(NSArray*)inUseTitles unUseTitles:(NSArray*)unUseTitles finish:(ChannelBlock)block{
-    _block = block;
-    _channelView.inUseTitles = [NSMutableArray arrayWithArray:inUseTitles];
-    _channelView.unUseTitles = [NSMutableArray arrayWithArray:unUseTitles];
-    [_channelView reloadData];
+-(void)showChannelViewWithInUseTitles:(NSArray*)inUseTitles unUseTitles:(NSArray*)unUseTitles finish:(XLChannelBlock)block{
+    self.block = block;
+    self.channelView.inUseTitles = [NSMutableArray arrayWithArray:inUseTitles];
+    self.channelView.unUseTitles = [NSMutableArray arrayWithArray:unUseTitles];
+    [self.channelView reloadData];
 
-    CGRect frame = _nav.view.frame;
-    frame.origin.y = - _nav.view.bounds.size.height;
-    _nav.view.frame = frame;
-    _nav.view.alpha = 0;
-    [[UIApplication sharedApplication].keyWindow addSubview:_nav.view];
+    CGRect frame = self.nav.view.frame;
+    frame.origin.y = - self.nav.view.bounds.size.height;
+    self.nav.view.frame = frame;
+    self.nav.view.alpha = 0;
+    [[UIApplication sharedApplication].keyWindow addSubview:self.nav.view];
     [UIView animateWithDuration:0.3 animations:^{
-        _nav.view.alpha = 1;
-        _nav.view.frame = [UIScreen mainScreen].bounds;
+        self.nav.view.alpha = 1;
+        self.nav.view.frame = [UIScreen mainScreen].bounds;
     }];
 }
 

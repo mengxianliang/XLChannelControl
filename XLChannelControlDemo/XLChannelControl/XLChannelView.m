@@ -17,21 +17,21 @@ static CGFloat CellMarginX = 15.0f;
 static CGFloat CellMarginY = 10.0f;
 
 
-@interface XLChannelView ()<UICollectionViewDelegate,UICollectionViewDataSource>
-{
-    UICollectionView *_collectionView;
-    //被拖拽的item
-    XLChannelItem *_dragingItem;
-    //正在拖拽的indexpath
-    NSIndexPath *_dragingIndexPath;
-    //目标位置
-    NSIndexPath *_targetIndexPath;
-}
+@interface XLChannelView ()<UICollectionViewDelegate,UICollectionViewDataSource> 
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+
+@property (nonatomic, strong) XLChannelItem *dragingItem;
+
+@property (nonatomic, strong) NSIndexPath *dragingIndexPath;
+
+@property (nonatomic, strong) NSIndexPath *targetIndexPath;
+
 @end
 
 @implementation XLChannelView
 
--(instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         [self buildUI];
     }
@@ -49,29 +49,29 @@ static CGFloat CellMarginY = 10.0f;
     flowLayout.minimumInteritemSpacing = CellMarginX;
     flowLayout.headerReferenceSize = CGSizeMake(self.bounds.size.width, 40);
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
-    _collectionView.showsHorizontalScrollIndicator = false;
-    _collectionView.backgroundColor = [UIColor clearColor];
-    [_collectionView registerClass:[XLChannelItem class] forCellWithReuseIdentifier:@"XLChannelItem"];
-    [_collectionView registerClass:[XLChannelHeader class]
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
+    self.collectionView.showsHorizontalScrollIndicator = false;
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    [self.collectionView registerClass:[XLChannelItem class] forCellWithReuseIdentifier:@"XLChannelItem"];
+    [self.collectionView registerClass:[XLChannelHeader class]
         forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"XLChannelHeader"];
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    [self addSubview:_collectionView];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    [self addSubview:self.collectionView];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressMethod:)];
     longPress.minimumPressDuration = 0.3f;
-    [_collectionView addGestureRecognizer:longPress];
+    [self.collectionView addGestureRecognizer:longPress];
     
-    _dragingItem = [[XLChannelItem alloc] initWithFrame:CGRectMake(0, 0, cellWidth, cellWidth/2.0f)];
-    _dragingItem.hidden = true;
-    [_collectionView addSubview:_dragingItem];
+    self.dragingItem = [[XLChannelItem alloc] initWithFrame:CGRectMake(0, 0, cellWidth, cellWidth/2.0f)];
+    self.dragingItem.hidden = true;
+    [self.collectionView addSubview:self.dragingItem];
 }
 
 #pragma mark -
 #pragma mark LongPressMethod
 -(void)longPressMethod:(UILongPressGestureRecognizer*)gesture{
-    CGPoint point = [gesture locationInView:_collectionView];
+    CGPoint point = [gesture locationInView:self.collectionView];
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
             [self dragBegin:point];
@@ -89,43 +89,43 @@ static CGFloat CellMarginY = 10.0f;
 
 //拖拽开始 找到被拖拽的item
 -(void)dragBegin:(CGPoint)point{
-    _dragingIndexPath = [self getDragingIndexPathWithPoint:point];
-    if (!_dragingIndexPath) {return;}
-    [_collectionView bringSubviewToFront:_dragingItem];
-    XLChannelItem *item = (XLChannelItem*)[_collectionView cellForItemAtIndexPath:_dragingIndexPath];
+    self.dragingIndexPath = [self getDragingIndexPathWithPoint:point];
+    if (!self.dragingIndexPath) {return;}
+    [self.collectionView bringSubviewToFront:self.dragingItem];
+    XLChannelItem *item = (XLChannelItem*)[self.collectionView cellForItemAtIndexPath:self.dragingIndexPath];
     item.isMoving = true;
     //更新被拖拽的item
-    _dragingItem.hidden = false;
-    _dragingItem.frame = item.frame;
-    _dragingItem.title = item.title;
-    [_dragingItem setTransform:CGAffineTransformMakeScale(1.1, 1.1)];
+    self.dragingItem.hidden = false;
+    self.dragingItem.frame = item.frame;
+    self.dragingItem.title = item.title;
+    [self.dragingItem setTransform:CGAffineTransformMakeScale(1.1, 1.1)];
 }
 
 //正在被拖拽、、、
 -(void)dragChanged:(CGPoint)point{
-    if (!_dragingIndexPath) {return;}
-    _dragingItem.center = point;
-    _targetIndexPath = [self getTargetIndexPathWithPoint:point];
-    //交换位置 如果没有找到_targetIndexPath则不交换位置
-    if (_dragingIndexPath && _targetIndexPath) {
+    if (!self.dragingIndexPath) {return;}
+    self.dragingItem.center = point;
+    self.targetIndexPath = [self getTargetIndexPathWithPoint:point];
+    //交换位置 如果没有找到self.targetIndexPath则不交换位置
+    if (self.dragingIndexPath && self.targetIndexPath) {
         //更新数据源
         [self rearrangeInUseTitles];
         //更新item位置
-        [_collectionView moveItemAtIndexPath:_dragingIndexPath toIndexPath:_targetIndexPath];
-        _dragingIndexPath = _targetIndexPath;
+        [self.collectionView moveItemAtIndexPath:self.dragingIndexPath toIndexPath:self.targetIndexPath];
+        self.dragingIndexPath = self.targetIndexPath;
     }
 }
 
 //拖拽结束
 -(void)dragEnd{
-    if (!_dragingIndexPath) {return;}
-    CGRect endFrame = [_collectionView cellForItemAtIndexPath:_dragingIndexPath].frame;
-    [_dragingItem setTransform:CGAffineTransformMakeScale(1.0, 1.0)];
+    if (!self.dragingIndexPath) {return;}
+    CGRect endFrame = [self.collectionView cellForItemAtIndexPath:self.dragingIndexPath].frame;
+    [self.dragingItem setTransform:CGAffineTransformMakeScale(1.0, 1.0)];
     [UIView animateWithDuration:0.3 animations:^{
-        _dragingItem.frame = endFrame;
+        self.dragingItem.frame = endFrame;
     }completion:^(BOOL finished) {
-        _dragingItem.hidden = true;
-        XLChannelItem *item = (XLChannelItem*)[_collectionView cellForItemAtIndexPath:_dragingIndexPath];
+        self.dragingItem.hidden = true;
+        XLChannelItem *item = (XLChannelItem*)[self.collectionView cellForItemAtIndexPath:self.dragingIndexPath];
         item.isMoving = false;
     }];
 }
@@ -137,12 +137,12 @@ static CGFloat CellMarginY = 10.0f;
 -(NSIndexPath*)getDragingIndexPathWithPoint:(CGPoint)point{
     NSIndexPath* dragIndexPath = nil;
     //最后剩一个怎不可以排序
-    if ([_collectionView numberOfItemsInSection:0] == 1) {return dragIndexPath;}
-    for (NSIndexPath *indexPath in _collectionView.indexPathsForVisibleItems) {
+    if ([self.collectionView numberOfItemsInSection:0] == 1) {return dragIndexPath;}
+    for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems) {
         //下半部分不需要排序
         if (indexPath.section > 0) {continue;}
         //在上半部分中找出相对应的Item
-        if (CGRectContainsPoint([_collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
+        if (CGRectContainsPoint([self.collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
             if (indexPath.row != 0) {
                 dragIndexPath = indexPath;
             }
@@ -155,13 +155,13 @@ static CGFloat CellMarginY = 10.0f;
 //获取目标IndexPath的方法
 -(NSIndexPath*)getTargetIndexPathWithPoint:(CGPoint)point{
     NSIndexPath *targetIndexPath = nil;
-    for (NSIndexPath *indexPath in _collectionView.indexPathsForVisibleItems) {
+    for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems) {
         //如果是自己不需要排序
-        if ([indexPath isEqual:_dragingIndexPath]) {continue;}
+        if ([indexPath isEqual:self.dragingIndexPath]) {continue;}
         //第二组不需要排序
         if (indexPath.section > 0) {continue;}
         //在第一组中找出将被替换位置的Item
-        if (CGRectContainsPoint([_collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
+        if (CGRectContainsPoint([self.collectionView cellForItemAtIndexPath:indexPath].frame, point)) {
             if (indexPath.row != 0) {
                 targetIndexPath = indexPath;
             }
@@ -209,18 +209,18 @@ static CGFloat CellMarginY = 10.0f;
 {
     if (indexPath.section == 0) {
         //只剩一个的时候不可删除
-        if ([_collectionView numberOfItemsInSection:0] == 1) {return;}
+        if ([self.collectionView numberOfItemsInSection:0] == 1) {return;}
         //第一个不可删除
         if (indexPath.row  == 0) {return;}
         id obj = [_inUseTitles objectAtIndex:indexPath.row];
         [_inUseTitles removeObject:obj];
         [_unUseTitles insertObject:obj atIndex:0];
-        [_collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+        [self.collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     }else{
         id obj = [_unUseTitles objectAtIndex:indexPath.row];
         [_unUseTitles removeObject:obj];
         [_inUseTitles addObject:obj];
-        [_collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:_inUseTitles.count - 1 inSection:0]];
+        [self.collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:_inUseTitles.count - 1 inSection:0]];
     }
 }
 
@@ -229,14 +229,14 @@ static CGFloat CellMarginY = 10.0f;
 //拖拽排序后需要重新排序数据源
 -(void)rearrangeInUseTitles
 {
-    id obj = [_inUseTitles objectAtIndex:_dragingIndexPath.row];
+    id obj = [_inUseTitles objectAtIndex:self.dragingIndexPath.row];
     [_inUseTitles removeObject:obj];
-    [_inUseTitles insertObject:obj atIndex:_targetIndexPath.row];
+    [_inUseTitles insertObject:obj atIndex:self.targetIndexPath.row];
 }
 
 -(void)reloadData
 {
-    [_collectionView reloadData];
+    [self.collectionView reloadData];
 }
 
 @end
