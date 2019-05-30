@@ -17,7 +17,7 @@ static CGFloat CellMarginX = 15.0f;
 static CGFloat CellMarginY = 10.0f;
 
 
-@interface XLChannelView ()<UICollectionViewDelegate,UICollectionViewDataSource> 
+@interface XLChannelView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -174,7 +174,7 @@ static CGFloat CellMarginY = 10.0f;
 #pragma mark CollectionViewDelegate&DataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return section == 0 ? _inUseTitles.count : _unUseTitles.count;
+    return section == 0 ? self.enabledTitles.count : self.disabledTitles.count;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -200,7 +200,7 @@ static CGFloat CellMarginY = 10.0f;
 {
     static NSString* cellId = @"XLChannelItem";
     XLChannelItem* item = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
-    item.title = indexPath.section == 0 ? _inUseTitles[indexPath.row] : _unUseTitles[indexPath.row];
+    item.title = indexPath.section == 0 ? self.enabledTitles[indexPath.row] : self.disabledTitles[indexPath.row];
     item.isFixed = indexPath.section == 0 && indexPath.row == 0;
     return  item;
 }
@@ -212,15 +212,15 @@ static CGFloat CellMarginY = 10.0f;
         if ([self.collectionView numberOfItemsInSection:0] == 1) {return;}
         //第一个不可删除
         if (indexPath.row  == 0) {return;}
-        id obj = [_inUseTitles objectAtIndex:indexPath.row];
-        [_inUseTitles removeObject:obj];
-        [_unUseTitles insertObject:obj atIndex:0];
+        id obj = [self.enabledTitles objectAtIndex:indexPath.row];
+        [self.enabledTitles removeObject:obj];
+        [self.disabledTitles insertObject:obj atIndex:0];
         [self.collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     }else{
-        id obj = [_unUseTitles objectAtIndex:indexPath.row];
-        [_unUseTitles removeObject:obj];
-        [_inUseTitles addObject:obj];
-        [self.collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:_inUseTitles.count - 1 inSection:0]];
+        id obj = [self.disabledTitles objectAtIndex:indexPath.row];
+        [self.disabledTitles removeObject:obj];
+        [self.enabledTitles addObject:obj];
+        [self.collectionView moveItemAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:self.enabledTitles.count - 1 inSection:0]];
     }
 }
 
@@ -229,9 +229,9 @@ static CGFloat CellMarginY = 10.0f;
 //拖拽排序后需要重新排序数据源
 -(void)rearrangeInUseTitles
 {
-    id obj = [_inUseTitles objectAtIndex:self.dragingIndexPath.row];
-    [_inUseTitles removeObject:obj];
-    [_inUseTitles insertObject:obj atIndex:self.targetIndexPath.row];
+    id obj = [self.enabledTitles objectAtIndex:self.dragingIndexPath.row];
+    [self.enabledTitles removeObject:obj];
+    [self.enabledTitles insertObject:obj atIndex:self.targetIndexPath.row];
 }
 
 -(void)reloadData

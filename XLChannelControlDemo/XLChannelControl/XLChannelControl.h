@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^XLChannelBlock)(NSArray *inUseTitles,NSArray *unUseTitles);
+typedef void(^XLChannelBlock)(NSArray *enabledTitles,NSArray *disabledTitles);
 
 @interface XLChannelControl : NSObject
 
 + (XLChannelControl*)shareControl;
 
-- (void)showChannelViewWithInUseTitles:(NSArray*)inUseTitles unUseTitles:(NSArray*)unUseTitles finish:(XLChannelBlock)block;
+- (void)showChannelViewWithEnabledTitles:(NSArray*)enabledTitles disabledTitles:(NSArray*)disabledTitles finish:(XLChannelBlock)block;
 
 @end

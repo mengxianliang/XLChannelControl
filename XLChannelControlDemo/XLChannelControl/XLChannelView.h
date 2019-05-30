@@ -10,9 +10,9 @@
 
 @interface XLChannelView : UIView
 
-@property (nonatomic, strong) NSMutableArray *inUseTitles;
+@property (nonatomic, strong) NSMutableArray *enabledTitles;
 
-@property (nonatomic,strong) NSMutableArray *unUseTitles;
+@property (nonatomic,strong) NSMutableArray *disabledTitles;
 
 -(void)reloadData;
 

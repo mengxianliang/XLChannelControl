@@ -56,13 +56,13 @@
     }completion:^(BOOL finished) {
         [self.nav.view removeFromSuperview];
     }];
-    self.block(self.channelView.inUseTitles,self.channelView.unUseTitles);
+    self.block(self.channelView.enabledTitles,self.channelView.disabledTitles);
 }
 
--(void)showChannelViewWithInUseTitles:(NSArray*)inUseTitles unUseTitles:(NSArray*)unUseTitles finish:(XLChannelBlock)block{
+- (void)showChannelViewWithEnabledTitles:(NSArray*)enabledTitles disabledTitles:(NSArray*)disabledTitles finish:(XLChannelBlock)block {
     self.block = block;
-    self.channelView.inUseTitles = [NSMutableArray arrayWithArray:inUseTitles];
-    self.channelView.unUseTitles = [NSMutableArray arrayWithArray:unUseTitles];
+    self.channelView.enabledTitles = [NSMutableArray arrayWithArray:enabledTitles];
+    self.channelView.disabledTitles = [NSMutableArray arrayWithArray:disabledTitles];
     [self.channelView reloadData];
 
     CGRect frame = self.nav.view.frame;
